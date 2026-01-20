@@ -1,0 +1,15 @@
+*** Using Compiler 'V6.12', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'APP'
+compiling systick.c...
+compiling gd32f30x_it.c...
+compiling main.c...
+linking...
+.\out_hex\LG_JJQ_APP.axf: Error: L6200E: Symbol SysTick_Handler multiply defined (by port.o and gd32f30x_it.o).
+.\out_hex\LG_JJQ_APP.axf: Error: L6200E: Symbol SVC_Handler multiply defined (by port.o and gd32f30x_it.o).
+.\out_hex\LG_JJQ_APP.axf: Error: L6200E: Symbol PendSV_Handler multiply defined (by port.o and gd32f30x_it.o).
+Not enough information to list image symbols.
+Not enough information to list load addresses in the image map.
+Finished: 2 information, 0 warning and 3 error messages.
+".\out_hex\LG_JJQ_APP.axf" - 3 Error(s), 0 Warning(s).
+Target not created.
+Build Time Elapsed:  00:00:00
