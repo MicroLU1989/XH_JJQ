@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,GD32F30X_CL,USE_USB_FS,SYS_USING_HEAP,SYS_SUPPORT_OS</Define>
               <Undefine></Undefine>
-              <IncludePath>.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_standard_peripheral\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\driver\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\device\core\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\device\class\cdc\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\ustd\common;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\ustd\class\cdc;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\driver\Include;.\Components\os_port;.\RTOS\FreeRTOS\include;.\RTOS\FreeRTOS\portable\GCC\ARM_CM4F;.\RTOS\FreeRTOS;.\Components\log;.\Components\device;.\Components\utils;.\Components\gps;.\Components\usb;.\Components\led;.\Components\driver;.\Components\menu;.\Components\RFID;.\Components\key;..\app-freeRTOS</IncludePath>
+              <IncludePath>.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_standard_peripheral\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\driver\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\device\core\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\device\class\cdc\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\ustd\common;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\ustd\class\cdc;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\driver\Include;.\Components\os_port;.\RTOS\FreeRTOS\include;.\RTOS\FreeRTOS\portable\GCC\ARM_CM4F;.\RTOS\FreeRTOS;.\Components\log;.\Components\device;.\Components\utils;.\Components\gps;.\Components\usb;.\Components\led;.\Components\driver;.\Components\menu;.\Components\RFID;.\Components\key;..\app-freeRTOS;.\Components\typedef</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -846,6 +846,11 @@
               <FileType>1</FileType>
               <FilePath>.\Components\utils\my_linklist.c</FilePath>
             </File>
+            <File>
+              <FileName>common_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Components\utils\common_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -865,6 +870,16 @@
               <FileName>key.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Components\key\key.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Components/typedef</GroupName>
+          <Files>
+            <File>
+              <FileName>user_data_typedef.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Components\typedef\user_data_typedef.h</FilePath>
             </File>
           </Files>
         </Group>

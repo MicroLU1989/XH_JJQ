@@ -4,89 +4,82 @@
 #include "user_log.h"
 #include "my_linklist.h"
 
-linklist_t *menu_list = NULL; // 菜单项链表
+#define MENU_PAGE_NUM 4
 
-struct menu_item_t
-{
-	char *name;
-	void (*dis_func)(void);		// 绘制菜单项
-	void (*refresh_func)(void); // 刷新菜单项
-};
+static uint8_t menu_page_index = 0;
 
-// 菜单1,主菜单
+typedef void (*menu_page_ptr)(void);
+
+// 菜单1,主菜单.
 static void menu_1_dis(void)
 {
 	lcd_clear_screen();
-	lcd_show_string(0, 0, (uint8_t *)&"menu 001", 12);
-	log_d("菜单1绘制完成");
-}
-
-static void menu_1_refresh(void)
-{
-	lcd_clear_screen();
-	lcd_show_string(0, 8, (uint8_t *)&"2026-1-15 10:36:30", 12);
-
+	lcd_show_string(0, 0, (uint8_t *)&"2026-01-21 12:34:56", 12);
+	lcd_show_string(24, 16, (uint8_t *)&"Bienvenue", 12);
+	lcd_show_string(30, 32, (uint8_t *)&"OLE TOGO",12);
+	lcd_show_string(0, 48, (uint8_t *)&"T:T:T        v3.1.5",12);
+	// log_d("菜单1绘制完成");
 }
 
 // 菜单计价器界面
 static void menu_2_dis(void)
 {
 	lcd_clear_screen();
-	lcd_show_string(0, 16, (uint8_t *)&"2026-1-15 10:36:02", 12);
-	log_d("菜单2绘制完成");
-}
-
-static void menu_2_refresh(void)
-{
-	lcd_clear_screen();
-	lcd_show_string(0, 8, (uint8_t *)&"2026-1-15 10:36:30", 12);
+	lcd_show_string(0, 0, (uint8_t *)&"2025-11", 12);
+	// log_d("菜单2绘制完成");
 }
 
 // 菜单3 刷卡界面
 static void menu_3_dis(void)
 {
 	lcd_clear_screen();
-	lcd_show_string(0, 16, (uint8_t *)&"2026-1-15 10:36:03", 12);
-	log_d("菜单3绘制完成");
-}
-
-static void menu_3_refresh(void)
-{
-	lcd_clear_screen();
-	lcd_show_string(0, 8, (uint8_t *)&"2026-1-15 10:36:30", 12);
-
+	lcd_show_string(0, 0, (uint8_t *)&"menu 003", 12);
+	// log_d("菜单3绘制完成");
 }
 
 // 菜单4 信息界面
 static void menu_4_dis(void)
 {
 	lcd_clear_screen();
-	lcd_show_string(0, 16, (uint8_t *)&"2026-1-15 10:36:04", 12);
-	log_d("菜单4绘制完成");
+	lcd_show_string(0, 0, (uint8_t *)&"menu 004", 12);
+	// log_d("菜单4绘制完成");
 }
 
-static void menu_4_refresh(void)
-{
-	lcd_clear_screen();
-	lcd_show_string(0, 8, (uint8_t *)&"2026-1-15 10:36:30", 12);
-}
-
-void menu_add_item(char *name, void (*dis_func)(void), void (*refresh_func)(void))
-{
-	struct menu_item_t *item = (struct menu_item_t *)os_malloc(sizeof(struct menu_item_t));
-	linklist_t *node = (linklist_t *)os_malloc(sizeof(linklist_t));
-	item->name = os_malloc(strlen(name) + 1);
-    if(item == NULL || node == NULL || item->name == NULL)
+static menu_page_ptr menu_list[MENU_PAGE_NUM] =
 	{
-		log_e("内存分配失败");
-		return;
+		menu_1_dis,
+		menu_2_dis,
+		menu_3_dis,
+		menu_4_dis,
+};
+
+void menu_key_press_handle(uint8_t key_id)
+{
+	if (key_id == 0)
+	{
+		// 向下翻页：如果当前页是最后一页，则回到第一页；否则下一页
+		if (menu_page_index >= MENU_PAGE_NUM - 1)
+		{
+			menu_page_index = 0;
+		}
+		else
+		{
+			menu_page_index++;
+		}
 	}
-	memset(item->name, 0, strlen(name) + 1);
-	strcpy(item->name, name);
-	item->dis_func = dis_func;
-	item->refresh_func = refresh_func;
-	node->data = item;
-	linklist_insert_after(menu_list,node);
+	else if (key_id == 1)
+	{
+		// 向上翻页：如果当前页是第一页，则跳到最后一页；否则上一页
+		if (menu_page_index == 0)
+		{
+			menu_page_index = MENU_PAGE_NUM - 1;
+		}
+		else
+		{
+			menu_page_index--;
+		}
+	}
+	log_d("menu_page_index = %d", menu_page_index);
 }
 
 void test_contrast(void)
@@ -116,12 +109,7 @@ void test_contrast(void)
 
 static void menu_init(void)
 {
-	menu_list = linklist_create();
 	lcd_darw_init();
-	menu_add_item("menu_1", menu_1_dis, menu_1_refresh);
-	menu_add_item("menu_2", menu_2_dis, menu_2_refresh);
-	menu_add_item("menu_3", menu_3_dis, menu_3_refresh);
-	menu_add_item("menu_4", menu_4_dis, menu_4_refresh);
 }
 
 void menu_task(void *param)
@@ -130,16 +118,8 @@ void menu_task(void *param)
 	os_task_mdelay(1000);
 	while (1)
 	{
-		//test_contrast();
-		// 循环绘制菜单项
-		linklist_t *item = menu_list->next;
-        while (item != NULL)
-		{
-			struct menu_item_t *menu_item = (struct menu_item_t *)item->data;
-			menu_item->dis_func();
-		    lcd_draw_refresh();
-			item = item->next;
-			os_task_mdelay(2000);
-		}
+		menu_list[menu_page_index]();
+		lcd_draw_refresh();
+		os_task_mdelay(100);
 	}
 }

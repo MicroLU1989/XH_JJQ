@@ -4,8 +4,7 @@
 
 
 
-
-void menu_task(void *param);
-
+extern void menu_key_press_handle(uint8_t key_id);
+extern void menu_task(void *param);
 
 #endif
