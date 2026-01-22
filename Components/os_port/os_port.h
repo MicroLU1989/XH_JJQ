@@ -58,7 +58,7 @@
 
 uint32_t os_tick_ms_get(void);
 
-void os_task_mdelay(uint32_t ms);
+void os_task_sleep(uint32_t ms);
 
 void *os_task_create(const char *name, void(*task_entry)(void *param), void *param,  int stack_size, int priority,int tick);
 

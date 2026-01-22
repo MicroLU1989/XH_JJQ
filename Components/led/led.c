@@ -14,10 +14,10 @@ void led_task(void *param)
 	drv_gpio_init(GSM_PIN_PORT, GSM_PIN_NUM, PIN_MODE_OUT_PP, PIN_SPEED_2M);
 	while (1)
 	{
-		os_task_mdelay(250);
+		os_task_sleep(250);
 		drv_gpio_write(GPS_PIN_PORT, GPS_PIN_NUM, 0);
 		drv_gpio_write(GSM_PIN_PORT, GSM_PIN_NUM, 0);
-		os_task_mdelay(250);
+		os_task_sleep(250);
 		drv_gpio_write(GPS_PIN_PORT, GPS_PIN_NUM, 1);
 		drv_gpio_write(GSM_PIN_PORT, GSM_PIN_NUM, 1);
 	}

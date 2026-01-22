@@ -14,6 +14,6 @@ void rfid_task(void *param)
         //si522_write_reg(0x01,0x0f); //测试I2C;
 			  //uint8_t val = si522_read_reg(0x37);
 			  //log_d("0x37寄存器数据 = 0x%02x",val);
-        os_task_mdelay(100);
+        os_task_sleep(100);
     }
 }

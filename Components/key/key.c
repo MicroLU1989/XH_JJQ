@@ -4,7 +4,7 @@
 #include "user_log.h"
 #include "os_port.h"
 #include "my_queue.h"
-
+#include "buzzer.h"
 
 //外部按键事件处理函数
 extern void menu_key_press_handle(uint8_t key_id);
@@ -252,7 +252,8 @@ static void key_fsm_process(KEY_ID_E key_id, uint8_t current_level)
                 key_data_tab[key_id].id = key_id;
                 queue_push(key_queue, &key_data_tab[key_id]);
                 menu_key_press_handle(key_id);
-                os_sem_release(key_sem); // 通知按键处理线程
+                // os_sem_release(key_sem); // 通知按键处理线程
+                buzzer_prompt_load(BUZZER_PROMPT_KEY);
                 log_i("KEY %d 单击确认 (new press after timeout)\n", key_id);
                 // 然后立即处理新的按下事件，进入消抖
                 fsm->state = KEY_STATE_DEBOUNCING_PRESS;
@@ -269,7 +270,8 @@ static void key_fsm_process(KEY_ID_E key_id, uint8_t current_level)
                 key_data_tab[key_id].id = key_id;
                 queue_push(key_queue, &key_data_tab[key_id]);
                 menu_key_press_handle(key_id);
-                os_sem_release(key_sem); // 通知按键处理线程
+                //  os_sem_release(key_sem); // 通知按键处理线程
+                buzzer_prompt_load(BUZZER_PROMPT_KEY);
                 log_i("KEY %d 单击确认 (timeout)\n", key_id);
                 fsm->state = KEY_STATE_IDLE;
             }
@@ -297,7 +299,7 @@ void key_scan_task(void *param)
 
     while (1)
     {
-        os_task_mdelay(10); // 10ms扫描周期，足够快以捕获消抖
+        os_task_sleep(10); // 10ms扫描周期，足够快以捕获消抖
 
         for (uint16_t index = 0; index < KEY_ID_MAX; index++)
         {

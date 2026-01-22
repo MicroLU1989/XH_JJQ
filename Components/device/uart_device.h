@@ -34,6 +34,7 @@ enum uart_parity
     UART_PARITY_NONE = 0x00,
     UART_PARITY_EVEN = 0x01,
     UART_PARITY_ODD  = 0x02,
+    UART_PARITY_MAX
 };
 
 enum uart_stopbits
@@ -60,6 +61,8 @@ struct uart_config_t
 {
     uint32_t id;
     uint32_t baudrate;
+    uint32_t stopbits;
+    enum uart_parity parity;
     uint32_t rx_size;
 };
 

@@ -1,8 +1,6 @@
 #include "i2c_device.h"
 #include "i2c_driver.h"
 
-
-
 #include <string.h>
 #include "os_port.h"
 

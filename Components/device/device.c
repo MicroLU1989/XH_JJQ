@@ -4,6 +4,7 @@
 #include "usb_device.h"
 #include "spi_device.h"
 #include "i2c_device.h"
+#include "rtc_device.h"
 
 
 struct device_t *device_create(enum device_type dev_tpye, const char *dev_name)
@@ -22,6 +23,9 @@ struct device_t *device_create(enum device_type dev_tpye, const char *dev_name)
         break;
     case DEVICE_TYPE_I2C:
         dev = i2c_device_create(dev_name);
+        break;
+    case DEVICE_TYPE_RTC:
+        dev = rtc_device_create(dev_name);
         break;
     default:
         return NULL;
@@ -51,6 +55,9 @@ struct device_t *device_get_obj(enum device_type dev_tpye, char *dev_name)
         break;
     case DEVICE_TYPE_I2C:
         dev = i2c_device_get(dev_name);
+        break;
+    case DEVICE_TYPE_RTC:
+        dev = rtc_device_get(dev_name);
         break;
     default:
         return NULL;

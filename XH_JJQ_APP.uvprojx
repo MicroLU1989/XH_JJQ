@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,GD32F30X_CL,USE_USB_FS,SYS_USING_HEAP,SYS_SUPPORT_OS</Define>
               <Undefine></Undefine>
-              <IncludePath>.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_standard_peripheral\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\driver\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\device\core\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\device\class\cdc\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\ustd\common;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\ustd\class\cdc;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\driver\Include;.\Components\os_port;.\RTOS\FreeRTOS\include;.\RTOS\FreeRTOS\portable\GCC\ARM_CM4F;.\RTOS\FreeRTOS;.\Components\log;.\Components\device;.\Components\utils;.\Components\gps;.\Components\usb;.\Components\led;.\Components\driver;.\Components\menu;.\Components\RFID;.\Components\key;..\app-freeRTOS;.\Components\typedef</IncludePath>
+              <IncludePath>.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_standard_peripheral\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\driver\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\device\core\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\device\class\cdc\Include;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\ustd\common;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\ustd\class\cdc;.\GD32F30x_Firmware_Library_V3.0.2\GD32F30x_Firmware_Library_V3.0.2\Firmware\GD32F30x_usbfs_library\driver\Include;.\Components\os_port;.\RTOS\FreeRTOS\include;.\RTOS\FreeRTOS\portable\GCC\ARM_CM4F;.\RTOS\FreeRTOS;.\Components\log;.\Components\device;.\Components\utils;.\Components\gps;.\Components\usb;.\Components\led;.\Components\driver;.\Components\menu;.\Components\RFID;.\Components\key;..\app-freeRTOS;.\Components\typedef;.\Components\RS485;.\Components\buzzer</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -721,6 +721,11 @@
               <FileType>1</FileType>
               <FilePath>.\Components\driver\i2c_driver.c</FilePath>
             </File>
+            <File>
+              <FileName>rtc_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Components\driver\rtc_driver.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -755,6 +760,11 @@
               <FileName>i2c_device.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Components\device\i2c_device.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtc_device.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Components\device\rtc_device.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -880,6 +890,26 @@
               <FileName>user_data_typedef.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Components\typedef\user_data_typedef.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Components/RS485</GroupName>
+          <Files>
+            <File>
+              <FileName>rs485.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Components\RS485\rs485.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Components/buzzer</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Components\buzzer\buzzer.c</FilePath>
             </File>
           </Files>
         </Group>

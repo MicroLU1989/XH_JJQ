@@ -6,7 +6,8 @@
 
 
 
-
+extern char PcdRead(unsigned char addr,unsigned char *pData);
+char PcdWrite(unsigned char addr,unsigned char *pData);
 extern char Test_Si522_GetUID(void);
 extern void rfid_si522_init(void);
 extern uint8_t si522_read_reg(uint8_t reg_addr);

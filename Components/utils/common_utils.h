@@ -44,10 +44,11 @@ extern uint8_t date_to_week(uint16_t year, uint8_t month, uint8_t date);
 extern uint8_t hex_to_bcd(uint8_t data);
 extern uint8_t bcd_to_hex(uint8_t data);
 extern uint32_t time_to_timestamp(time_s t);
+extern time_s timestamp_to_time(uint32_t timestamp);
 extern void utc_to_bj_time(time_s *utc,time_s *bj_time);
 extern void get_clock_time(time_s *old_time, time_s *new_time, uint16_t n);
 extern bool time_check(time_s t);
-//extern time_s timestamp_to_time(uint32_t timestamp);
+
 extern float gps_cal_distance(int32_t lati_1, int32_t lati_2, int32_t lngi_1, int32_t lngi_2);
 extern uint8_t check_xor_val(uint8_t *src, uint16_t len);
 extern uint32_t check_sum_val(uint8_t *src, uint16_t len);

@@ -478,6 +478,77 @@ char Test_Si522_GetUID(void)
 }
 
 
+/////////////////////////////////////////////////////////////////////
+//功    能：读取M1卡一块数据
+//参数说明: addr[IN]：块地址
+//          pData[OUT]：读出的数据，16字节
+//返    回: 成功返回MI_OK
+///////////////////////////////////////////////////////////////////// 
+char PcdRead(unsigned char addr,unsigned char *pData)
+{
+    char status;
+    unsigned int unLen;
+    unsigned char ucComMF522Buf[MAXRLEN]; 
+
+    ucComMF522Buf[0] = PICC_READ;
+    ucComMF522Buf[1] = addr;
+    CalulateCRC(ucComMF522Buf,2,&ucComMF522Buf[2]);
+   
+    status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,4,ucComMF522Buf,&unLen);
+    if ((status == MI_OK) && (unLen == 0x90))
+   	{   
+		memcpy(pData, ucComMF522Buf, 16);   
+	}
+    else
+    {   
+		status = MI_ERR;   
+	}
+    
+    return status;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+//功    能：写数据到M1卡一块
+//参数说明: addr[IN]：块地址
+//          pData[IN]：写入的数据，16字节
+//返    回: 成功返回MI_OK
+/////////////////////////////////////////////////////////////////////                  
+char PcdWrite(unsigned char addr,unsigned char *pData)
+{
+    char status;
+    unsigned int unLen;
+    unsigned char ucComMF522Buf[MAXRLEN]; 
+    
+    ucComMF522Buf[0] = PICC_WRITE;
+    ucComMF522Buf[1] = addr;
+    CalulateCRC(ucComMF522Buf,2,&ucComMF522Buf[2]);
+ 
+    status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,4,ucComMF522Buf,&unLen);
+
+    if ((status != MI_OK) || (unLen != 4) || ((ucComMF522Buf[0] & 0x0F) != 0x0A))
+    {   
+		status = MI_ERR;   
+	}
+        
+    if (status == MI_OK)
+    {
+        memcpy(ucComMF522Buf, pData, 16);
+        CalulateCRC(ucComMF522Buf,16,&ucComMF522Buf[16]);
+
+        status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,18,ucComMF522Buf,&unLen);
+        if ((status != MI_OK) || (unLen != 4) || ((ucComMF522Buf[0] & 0x0F) != 0x0A))
+        {   
+			status = MI_ERR;   
+		}
+    }
+    
+    return status;
+}
+
+
+
+
 void rfid_si522_init(void)
 {
     rfid_si522_gpio_init();

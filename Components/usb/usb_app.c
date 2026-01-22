@@ -40,10 +40,10 @@ void usb_app_task(void *param)
 					}
 					usbd_ep_send(&cdc_acm, CDC_DATA_IN_EP, (uint8_t *)tx_buf, i);
 					cdc->receive_length = 0;
-					os_task_mdelay(5);
+					os_task_sleep(5);
 				}
 			}
 		}
-		os_task_mdelay(5);
+		os_task_sleep(5);
 	}
 }

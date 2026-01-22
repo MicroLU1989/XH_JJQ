@@ -226,3 +226,19 @@ void TIMER2_IRQHandler(void)
    usb_timer_irq(); 
 }
 
+void RTC_IRQHandler(void)
+{
+    if (rtc_flag_get(RTC_FLAG_SECOND) != RESET){
+        /* clear the RTC second interrupt flag*/
+        rtc_flag_clear(RTC_FLAG_SECOND);
+        /* enable time update */
+        /* wait until last write operation on RTC registers has finished */
+        rtc_lwoff_wait();
+        /* reset RTC counter when time is 23:59:59 */
+   //     if (rtc_counter_get() == 0x00015180){
+   //         rtc_counter_set(0x0);
+            /* wait until last write operation on RTC registers has finished */
+   //         rtc_lwoff_wait();
+   //     }
+    }
+}

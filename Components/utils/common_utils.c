@@ -190,35 +190,23 @@ uint8_t date_to_week(uint16_t year, uint8_t month, uint8_t date)
 
 
 
-
-
-
-
 static uint8_t get_monsize(uint8_t year, uint8_t month)
 {
-    // 月份天数表（平年）
     const uint8_t month_days[12] = {
         31, 28, 31, 30, 31, 30,
         31, 31, 30, 31, 30, 31
     };
     
-    // 检查月份有效性
     if (month < 1 || month > 12) {
-        return 0; // 无效月份
+        return 0;
     }
     
-    // 获取基础天数
     uint8_t days = month_days[month - 1];
     
-    // 处理闰年二月
     if (month == 2) {
-        // 完整闰年判断（适用于所有年份）
-        // 假设 year 是实际年份的后两位（00-99）
-        // 实际年份 = 2000 + year
         uint16_t full_year = 2000 + year;
-        
         if ((full_year % 4 == 0 && full_year % 100 != 0) || (full_year % 400 == 0)) {
-            days = 29; // 闰年2月有29天
+            days = 29;
         }
     }
     
@@ -226,29 +214,25 @@ static uint8_t get_monsize(uint8_t year, uint8_t month)
 }
 
 /****************************************************************************
-* 名称:    time_to_timestamp ()
-* 功能：时间转换，时间转换成秒，2013/01/01 00:00:00 为基准时间
-* 入口参数：无
-* 出口参数：无
+* 名称:    time_to_timestamp
+* 功能：时间转换成秒，2000/01/01 00:00:00 为基准时间
 ****************************************************************************/
 uint32_t time_to_timestamp(time_s t1) {
     // 验证输入有效性
-    if (t1.year < 13 || t1.year > 99 ||  // 年份范围限制（2013-2060）
-        t1.month == 0 || t1.month > 12 || // 月份范围限制
-        t1.date == 0 || t1.date > 31 ||   // 日期范围限制
-        t1.hour > 23 ||                   // 小时范围限制
-        t1.min > 59 || t1.sec > 59)       // 分钟秒范围限制
+    if (t1.year > 99 ||                     // 年份范围限制（2000-2099）
+        t1.month == 0 || t1.month > 12 ||  // 月份范围限制
+        t1.date == 0 || t1.date > 31 ||    // 日期范围限制
+        t1.hour > 23 ||                    // 小时范围限制
+        t1.min > 59 || t1.sec > 59)        // 分钟秒范围限制
     {
         return 0;
     }
     
-    // 计算完整年份（2000 + t1.year）
     uint16_t full_year = 2000 + t1.year;
     
-    // 计算从2013年到目标年份前一年的总天数
+    // 计算从 2000 年到目标年份前一年的总天数
     uint32_t total_days = 0;
-    for (uint16_t year = 2013; year < full_year; year++) {
-        // 闰年判断（能被4整除但不能被100整除，或能被400整除）
+    for (uint16_t year = 2000; year < full_year; year++) {
         if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
             total_days += 366;
         } else {
@@ -258,21 +242,79 @@ uint32_t time_to_timestamp(time_s t1) {
     
     // 计算目标年份中到指定日期的天数
     for (uint8_t month = 1; month < t1.month; month++) {
-        total_days += get_monsize(t1.year, month); // 累加前几个月的天数
+        total_days += get_monsize(t1.year, month);
     }
-    total_days += (t1.date - 1); // 加上当月的天数（减1因为1号是第0天）
+    total_days += (t1.date - 1); // 1号是第0天
     
     // 计算总秒数
-    uint32_t total_seconds = total_days * 86400;  // 天转秒
-    total_seconds += t1.hour * 3600;              // 小时转秒
-    total_seconds += t1.min * 60;                 // 分钟转秒
-    total_seconds += t1.sec;                      // 加上秒数
+    uint32_t total_seconds = total_days * 86400;
+    total_seconds += t1.hour * 3600;
+    total_seconds += t1.min * 60;
+    total_seconds += t1.sec;
     
     return total_seconds;
 }
 
-
-
+/****************************************************************************
+* 名称:    timestamp_to_time
+* 功能：stamp 转 time，从 2000年1月1日00:00:00 开始
+****************************************************************************/
+time_s timestamp_to_time(uint32_t timestamp) 
+{
+    time_s result = {0};
+    
+    // 验证时间戳有效性（这里不设上限，只设下限为0）
+    if (timestamp > (uint32_t)(UINT32_MAX / 2)) { // 简单防止溢出
+        return result;
+    }
+    
+    uint32_t total_days = timestamp / 86400;
+    uint32_t seconds_left = timestamp % 86400;
+    
+    // 时间部分
+    result.hour = seconds_left / 3600;
+    result.min  = (seconds_left % 3600) / 60;
+    result.sec  = seconds_left % 60;
+    
+    // 从 2000 年开始计算年份
+    uint16_t current_year = 2000;
+    uint32_t remaining_days = total_days;
+    
+    while (remaining_days >= 365) {
+        uint16_t days_in_year = 365;
+        if ((current_year % 4 == 0 && current_year % 100 != 0) || (current_year % 400 == 0)) {
+            days_in_year = 366;
+        }
+        
+        if (remaining_days >= days_in_year) {
+            remaining_days -= days_in_year;
+            current_year++;
+        } else {
+            break;
+        }
+    }
+    
+    // 年份转成两位数表示
+    result.year = current_year - 2000;
+    
+    // 月份和日期
+    uint8_t current_month = 1;
+    uint32_t days_passed_this_year = remaining_days;
+    
+    while (current_month <= 12) {
+        uint8_t days_in_month = get_monsize(result.year, current_month);
+        
+        if (days_passed_this_year < days_in_month) {
+            result.date = days_passed_this_year + 1;
+            result.month = current_month;
+            break;
+        }
+        days_passed_this_year -= days_in_month;
+        current_month++;
+    }
+    
+    return result;
+}
 
 /****************************************************************************
 * 名     称:  utc_to_bj_time

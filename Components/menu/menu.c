@@ -93,7 +93,7 @@ void test_contrast(void)
 		//  log_d("亮度== 0x%x",i);
 		// 绘制测试图形
 		lcd_clear_screen();
-		os_task_mdelay(2000);
+		os_task_sleep(2000);
 		// lcd_draw_line(0, 0, 127, 63);     // 对角线
 		// lcd_draw_line(0, 63, 127, 0);   	 // 反对角线
 		// lcd_draw_line(0, 31, 127, 31);  	 // 水平中线
@@ -103,7 +103,7 @@ void test_contrast(void)
 		// lcd_show_icon(0,0,ICON_BT);
 		lcd_show_string(0, 16, (uint8_t *)&"2026-1-15 10:36:30", 12);
 		lcd_draw_refresh();
-		os_task_mdelay(3000);
+		os_task_sleep(3000);
 	}
 }
 
@@ -115,11 +115,11 @@ static void menu_init(void)
 void menu_task(void *param)
 {
 	menu_init();
-	os_task_mdelay(1000);
+	os_task_sleep(1000);
 	while (1)
 	{
 		menu_list[menu_page_index]();
 		lcd_draw_refresh();
-		os_task_mdelay(100);
+		os_task_sleep(100);
 	}
 }

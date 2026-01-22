@@ -133,6 +133,7 @@ uint32_t rtc_counter_get(void)
     \param[out] none
     \retval     none
 */
+#if 1
 void rtc_counter_set(uint32_t cnt)
 {
     rtc_configuration_mode_enter();
@@ -142,7 +143,32 @@ void rtc_counter_set(uint32_t cnt)
     RTC_CNTL = (cnt & RTC_LOW_VALUE);
     rtc_configuration_mode_exit();
 }
+#else
 
+void rtc_counter_set(uint32_t cnt)
+{
+    /* 等待RTC寄存器同步 */
+    rtc_register_sync_wait();
+    
+    /* 禁用写保护 */
+    RTC_WPK = 0xCA;
+    RTC_WPK = 0x53;
+    
+    /* 进入配置模式 */
+    rtc_configuration_mode_enter();
+    
+    /* 设置计数器值 */
+    RTC_CNTH = (cnt >> 16) & RTC_CNTH_RESET_MASK;
+    RTC_CNTL = cnt & RTC_CNTL_RESET_MASK;
+    
+    /* 退出配置模式 */
+    rtc_configuration_mode_exit();
+    
+    /* 重新使能写保护 */
+    RTC_WPK = 0xFF;
+}
+
+#endif
 /*!
     \brief      set RTC prescaler value
     \param[in]  psc: RTC prescaler value

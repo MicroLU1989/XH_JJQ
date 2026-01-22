@@ -60,6 +60,13 @@ static uint32_t uart_stopbits_map[UART_STOPBITS_MAX] = {
     [UART_STOPBITS_1_5] = USART_STB_1_5BIT,
 };
 
+static uint32_t uart_parity_map[UART_PARITY_MAX] = {
+    [UART_PARITY_NONE] = USART_PM_NONE,
+    [UART_PARITY_ODD] = USART_PM_ODD,
+    [UART_PARITY_EVEN] = USART_PM_EVEN,
+};
+
+
 #ifndef SYS_USING_HEAP
 
 static uint8_t uart_device_index = 0;
@@ -162,6 +169,9 @@ int uart_device_init(struct device_t *pdev, void *config)
 
     usart_deinit(uart_phy_map[uart_cfg->id].uart_id);
     usart_baudrate_set(uart_phy_map[uart_cfg->id].uart_id, uart_cfg->baudrate);
+    usart_stop_bit_set(uart_phy_map[uart_cfg->id].uart_id, uart_stopbits_map[uart_cfg->stopbits]);
+    usart_word_length_set(uart_phy_map[uart_cfg->id].uart_id, USART_WL_8BIT);
+    usart_parity_config(uart_phy_map[uart_cfg->id].uart_id, uart_parity_map[uart_cfg->parity]);
     usart_receive_config(uart_phy_map[uart_cfg->id].uart_id, USART_RECEIVE_ENABLE);
     usart_transmit_config(uart_phy_map[uart_cfg->id].uart_id, USART_TRANSMIT_ENABLE);
     usart_enable(uart_phy_map[uart_cfg->id].uart_id);

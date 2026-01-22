@@ -20,7 +20,7 @@ uint32_t os_tick_ms_get(void)
 #endif
 }
 
-void os_task_mdelay(uint32_t ms)
+void os_task_sleep(uint32_t ms)
 {
 #if (OS_TYPE == FREERTOS)
   vTaskDelay(ms / portTICK_PERIOD_MS);
