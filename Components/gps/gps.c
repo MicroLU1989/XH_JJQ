@@ -16,7 +16,7 @@
 #define GPS_PWR_PORT GPIO_PORT_C
 #define GPS_PWR_PIN GPIO_PIN_NUM(4)
  
-static bool gps_debug_enable = false;
+static bool gps_debug_enable = true;
 static bool car_is_moving = true;
 static uint8_t gps_data_buf[128];
 

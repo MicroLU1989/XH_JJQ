@@ -115,7 +115,6 @@ static void menu_init(void)
 void menu_task(void *param)
 {
 	menu_init();
-	os_task_sleep(1000);
 	while (1)
 	{
 		menu_list[menu_page_index]();

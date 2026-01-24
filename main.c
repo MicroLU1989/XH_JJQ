@@ -40,7 +40,7 @@ void app_task_start(void)
     os_task_create("keytsk", key_scan_task, NULL, 1024, 2, 10); // 按键扫描任务
     os_task_create("testtsk",  test_task, NULL, 1024, 3, 10);
     os_task_create("ledtsk", led_task, NULL, 1024, 4, 10);
-    // os_task_create("buzzertsk", buzzer_task, NULL, 1024, 5, 10);
+    os_task_create("buzzertsk", buzzer_task, NULL, 1024, 5, 10);
     os_task_create("gpstsk", gps_task, NULL, 1024, 6, 10);      // GPS任务
     os_task_create("menutsk", menu_task, NULL, 1024, 7, 10);    // 菜单任务 
     os_task_create("rfidtsk", rfid_task, NULL, 1024, 8, 10);    // RFID任务

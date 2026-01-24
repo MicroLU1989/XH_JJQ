@@ -6,6 +6,7 @@
 void rfid_task(void *param)
 {
     log_d("开始初始化RFID");
+	  os_task_sleep(100);
     rfid_si522_init();
      while (1)
     {
