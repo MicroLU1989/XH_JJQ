@@ -40,8 +40,6 @@
 #define LCD_PWR_ON  drv_gpio_write(LCD_PWR_PORT, LCD_PWR_PIN_NUM, 1)
 #define LCD_PWR_OFF drv_gpio_write(LCD_PWR_PORT, LCD_PWR_PIN_NUM, 0)
 
-
-#if 1
 static uint8_t lcd_init_cmd[] = 
 {
     0xA2, //1/9 Bias 
@@ -56,22 +54,6 @@ static uint8_t lcd_init_cmd[] =
     0x2F, //The Power Control Set
     0xAF  //Lcd Display ON
 };
-#else
-static uint8_t lcd_init_cmd[] = 
-{
-   0xA2,
-   0xA0,
-   0xC8,
-   0x24,
-   0x81,
-   0x1D,
-   0x2C,
-   0x2E,
-   0x2F,
-   0xF8,
-   0xAF
-};
-#endif
 
 
 void lcd_gpio_init(void)
